@@ -6,3 +6,5 @@
 *.bmp
 obj
 gh-pages
+build/
+release/

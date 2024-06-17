@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.21)
+
+project(
+	img2tim
+	LANGUAGES    CXX
+	VERSION      1.0.0
+	DESCRIPTION  "Converts images to PSX TIM image format"
+	HOMEPAGE_URL "https://github.com/victorfeitosa/Ikuzo-Toolset"
+)
+find_package(PkgConfig REQUIRED)
+
+add_executable(img2tim tim.cpp main.cpp)
+set_target_properties(img2tim PROPERTIES LINKER_LANGUAGE CXX)
+
+find_library(FREEIMAGE freeimage)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(MACOSX TRUE)
+	target_include_directories(img2tim PUBLIC "/opt/homebrew/Cellar/freeimage/3.18.0/include")
+endif()
+
+target_include_directories(img2tim PUBLIC "/usr/local/include")
+target_link_libraries(img2tim PUBLIC ${FREEIMAGE})
+

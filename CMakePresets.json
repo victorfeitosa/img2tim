@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug",
+      "description": "Debug build",
+      "hidden": false,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+      },
+      "environment": {
+        "CC": "/usr/bin/gcc",
+        "CXX": "/usr/bin/g++"
+      }
+    },
+    {
+      "name": "release",
+      "description": "Release build",
+      "hidden": false,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+      },
+      "environment": {
+        "CC": "/usr/bin/gcc",
+        "CXX": "/usr/bin/g++"
+      }
+    }
+  ]
+}
