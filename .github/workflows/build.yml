@@ -100,7 +100,7 @@ jobs:
       - name: Install Strip
         run: |
           cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
-          elif [ "$RUNNER_OS" == "Windows" ]; then
+          if [ "$RUNNER_OS" == "Windows" ]; then
             cmake -E copy ${{ github.workspace }}/vendor/freeimage/FreeImage.dll /instdir
           fi
 
