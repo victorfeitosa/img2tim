@@ -9,7 +9,8 @@ project(
 )
 find_package(PkgConfig REQUIRED)
 
-add_executable(img2tim tim.cpp main.cpp)
+file(GLOB img2tim_src "*.cpp" )
+add_executable(img2tim ${img2tim_src})
 
 target_include_directories(img2tim PUBLIC "./")
 target_include_directories(img2tim PUBLIC "./vendor/freeimage")
