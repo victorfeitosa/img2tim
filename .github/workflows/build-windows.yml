@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Strip
         run: |
-          cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip -and
+          cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip -- -and
           cmake -E copy ${{ steps.strings.outputs.build-output-dir }}\vendor\freeimage\FreeImage.dll instdir
 
       - name: Pack
