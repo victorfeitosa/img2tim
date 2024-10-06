@@ -10,15 +10,13 @@ project(
 find_package(PkgConfig REQUIRED)
 
 add_executable(img2tim tim.cpp main.cpp)
-set_target_properties(img2tim PROPERTIES LINKER_LANGUAGE CXX)
 
-find_library(FREEIMAGE freeimage)
+target_include_directories(img2tim PUBLIC "./")
+target_include_directories(img2tim PUBLIC "./vendor/freeimage")
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(MACOSX TRUE)
-	target_include_directories(img2tim PUBLIC "/opt/homebrew/Cellar/freeimage/3.18.0/include")
-endif()
-
-target_include_directories(img2tim PUBLIC "/usr/local/include")
+find_library(FREEIMAGE freeimage "./vendor/freeimage")
+target_link_libraries(img2tim PUBLIC m)
 target_link_libraries(img2tim PUBLIC ${FREEIMAGE})
+
+install(TARGETS img2tim)
 
