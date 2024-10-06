@@ -1,5 +1,5 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-name: Build Img2tim with CMake on multiple platforms
+name: Build Img2tim with CMake MacOS Intel and ARM
 
 on:
   push:
