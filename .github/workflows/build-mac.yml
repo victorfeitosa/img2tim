@@ -1,5 +1,4 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: Build Img2tim with CMake on multiple platforms
 
 on:
@@ -15,39 +14,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest, macos-13]
+        os: [macos-latest, macos-13]
         build_type: [Release]
-        c_compiler: [gcc, clang]
+        c_compiler: [clang]
         include:
-          - os: ubuntu-latest
-            name: Ubuntu latest
-            artifact: linux-x64.tar.xz
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: windows-latest
-            name: Windows latest
-            artifact: windows-x64.tar.xz
-            c_compiler: gcc
-            cpp_compiler: gcc
           - os: macos-latest
-            name: MacOS ARM
             artifact: macos-arm.tar.xz
-            c_compiler: clang
-            cpp_compiler: clang++
           - os: macos-13
-            name: MacOS Intel
             artifact: macos-intel.tar.xz
-            c_compiler: clang
-            cpp_compiler: clang++
-        exclude:
-          - os: windows-latest
-            c_compiler: clang
-          - os: ubuntu-latest
-            c_compiler: clang
-          - os: macos-latest
-            c_compiler: gcc
-          - os: macos-13
-            c_compiler: gcc
 
     steps:
       - uses: actions/checkout@v4
@@ -62,31 +36,18 @@ jobs:
       - name: Download Ninja
         id: dl-ninja
         shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt update && sudo apt install ninja-build
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            choco install pkgconfiglite ninja
-          else
-            brew update && brew install ninja
-          fi
+        run: brew update && brew install ninja
 
       - name: Install Freeimage
         id: dl-freimage
         shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt install libfreeimage-dev libfreeimageplus-dev -y
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install freeimage
-          fi
+        run: brew install freeimage
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
         run: >
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -G Ninja
@@ -98,7 +59,6 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
       - name: Install Strip
-        shell: bash
         run: |
           cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
           if [ "$RUNNER_OS" == "Windows" ]; then
@@ -113,5 +73,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          path: ./${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
           name: ${{ matrix.artifact }}
