@@ -1,5 +1,5 @@
+.DS_Store
 *.exe
-*.dll
 *.zip
 *.png
 *.tim
@@ -8,4 +8,5 @@ obj
 gh-pages
 build/
 release/
+test/
 .vscode/

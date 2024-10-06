@@ -10,8 +10,7 @@ This tool converts almost any image file into a PlayStation TIM image file for P
 * Basic RGB to color-index image conversion.
 
 ## Download
-The latest precompiled Win32 binary of this program can be downloaded here:
-[img2tim_(v0.75).zip](http://lameguy64.github.io/img2tim/img2tim_(v0.75).zip)
+The latest versions are available in the [Releases](https://github.com/victorfeitosa/img2tim/releases) tab for Windows, Mac and Linux
 
 Previous versions:
 [img2tim_(v0.60).zip](http://lameguy64.github.io/img2tim/img2tim_(v0.60).zip)

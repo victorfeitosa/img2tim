@@ -1,0 +1,64 @@
+# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
+name: Build Img2tim with CMake on Ubuntu
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+env:
+  BUILD_TYPE: Release
+  C_COMPILER: gcc
+  ARTIFACT: linux.tar.xz
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set reusable strings
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/release" >> "$GITHUB_OUTPUT"
+
+      - name: Download Ninja
+        id: dl-ninja
+        shell: bash
+        run: sudo apt update && sudo apt install ninja-build
+
+      - name: Install Freeimage
+        id: dl-freimage
+        shell: bash
+        run: sudo apt install libfreeimage-dev -y
+
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_C_COMPILER=${{ env.C_COMPILER }}
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+          -G Ninja
+          -S ${{ github.workspace }}
+
+      - name: Build
+        id: build
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ env.BUILD_TYPE }}
+
+      - name: Install Strip
+        run: cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
+
+      - name: Pack
+        working-directory: instdir/bin
+        shell: bash
+        run: cmake -E tar cJfv ../../${{ env.ARTIFACT }} .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ env.ARTIFACT }}
+          name: ${{ env.ARTIFACT }}
