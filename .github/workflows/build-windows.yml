@@ -55,7 +55,7 @@ jobs:
 
       - name: Pack
         working-directory: instdir\bin
-        run: cmake -E tar cJfv ..\..\${{ env.ARTIFACT }} .\*
+        run: cmake -E tar cJfv ..\..\${{ env.ARTIFACT }} .\img2tim.exe .\FreeImage.dll
 
       - name: Upload
         uses: actions/upload-artifact@v4
