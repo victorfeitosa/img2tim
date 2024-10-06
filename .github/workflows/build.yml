@@ -98,6 +98,7 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
       - name: Install Strip
+        shell: bash
         run: |
           cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
           if [ "$RUNNER_OS" == "Windows" ]; then
