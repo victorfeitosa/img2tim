@@ -3,7 +3,7 @@ name: Build Img2tim with CMake MacOS Intel and ARM
 
 on:
   push:
-    branches: ["main", test/build]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
 

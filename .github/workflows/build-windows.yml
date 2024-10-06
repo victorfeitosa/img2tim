@@ -2,7 +2,7 @@ name: Build Img2tim with CMake on Windows
 
 on:
   push:
-    branches: ["main", test/build]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
 

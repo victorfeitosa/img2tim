@@ -4,7 +4,7 @@ name: Build Img2tim with CMake on Ubuntu
 
 on:
   push:
-    branches: ["main", test/build]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
 
