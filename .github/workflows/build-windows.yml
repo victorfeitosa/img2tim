@@ -52,7 +52,7 @@ jobs:
         run: cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
 
       - name: Copy dependency
-        run: cmake -E copy ${{ steps.strings.outputs.build-output-dir }}\vendor\freeimage\FreeImage.dll .\instdir\
+        run: cmake -E copy ${{ steps.strings.outputs.build-output-dir }}\vendor\freeimage\FreeImage.dll .\instdir\FreeImage.dll
 
       - name: Pack
         working-directory: instdir\bin
