@@ -49,9 +49,10 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ env.BUILD_TYPE }}
 
       - name: Install Strip
-        run: |
-          (cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip) -and
-          (cmake -E copy ${{ steps.strings.outputs.build-output-dir }}\vendor\freeimage\FreeImage.dll instdir)
+        run: cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
+
+      - name: Copy dependency
+        run: cmake -E copy ${{ steps.strings.outputs.build-output-dir }}\vendor\freeimage\FreeImage.dll instdir
 
       - name: Pack
         working-directory: instdir\bin
