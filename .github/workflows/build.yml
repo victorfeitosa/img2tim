@@ -4,7 +4,7 @@ name: Build Img2tim with CMake on multiple platforms
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", test/build]
   pull_request:
     branches: ["main"]
 
@@ -98,7 +98,11 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
       - name: Install Strip
-        run: cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
+        run: |
+          cmake --install ${{ steps.strings.outputs.build-output-dir }} --prefix instdir --strip
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            cmake -E copy ${{ github.workspace }}/vendor/freeimage/FreeImage.dll /instdir
+          fi
 
       - name: Pack
         working-directory: instdir/bin
