@@ -3,9 +3,9 @@ name: Build Img2tim with CMake MacOS Intel and ARM
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
   pull_request:
-    branches: ["main"]
+    branches: ["master"]
 
 jobs:
   build:
